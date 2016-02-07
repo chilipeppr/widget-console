@@ -1,7 +1,7 @@
 # com-chilipeppr-widget-spconsole
 The Console widget lets you see the serial port log as well as send serial port commands into the selected serial port in the SPJS widget (the green one). There is a filter feature you can toggle in case your serial device sends large amounts of data that can overwhelm the user, but that you occasionally want to view by toggling the funnel. The console also lets you jump to previous commands using the up/down arrows in the input textbox.
 
-![alt text](screenshot.png "Screenshot")
+
 
 ## ChiliPeppr Widget / Serial Port Console v1.7
 
