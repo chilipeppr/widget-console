@@ -1,10 +1,12 @@
+/* global requirejs cprequire cpdefine chilipeppr */
+
 // Load additional files via Chilipeppr's require.js
 requirejs.config({
     paths: {
-        jqueryui: '//chilipeppr.com/js/jquery-ui-1.10.4/ui/jquery.ui.core',
-        jqueryuiWidget: '//chilipeppr.com/js/jquery-ui-1.10.4/ui/jquery.ui.widget',
-        jqueryuiMouse: '//chilipeppr.com/js/jquery-ui-1.10.4/ui/jquery.ui.mouse',
-        jqueryuiResizeable: '//chilipeppr.com/js/jquery-ui-1.10.4/ui/jquery.ui.resizable',
+        jqueryui: '//i2dcui.appspot.com/js/jquery-ui-1.10.4/ui/jquery.ui.core',
+        jqueryuiWidget: '//i2dcui.appspot.com/js/jquery-ui-1.10.4/ui/jquery.ui.widget',
+        jqueryuiMouse: '//i2dcui.appspot.com/js/jquery-ui-1.10.4/ui/jquery.ui.mouse',
+        jqueryuiResizeable: '//i2dcui.appspot.com/js/jquery-ui-1.10.4/ui/jquery.ui.resizable',
     },
     shim: {
         jqueryuiWidget: ['jqueryui'],
@@ -16,6 +18,8 @@ requirejs.config({
 // Test this element. This code is auto-removed by the chilipeppr.load()
 cprequire_test(["inline:com-chilipeppr-widget-spconsole"], function(sp) {
     console.log("test running of " + sp.id);
+    
+    $('body').css("padding", "20px");
 
     var singlePortMode = true;
 
@@ -46,7 +50,7 @@ cprequire_test(["inline:com-chilipeppr-widget-spconsole"], function(sp) {
             }, 3000);
 
             setTimeout(function() {
-                for (var ctr = 0; ctr < 200; ctr++) {
+                for (var ctr = 0; ctr < 20; ctr++) {
                     chilipeppr.publish("/com-chilipeppr-widget-serialport/send", 'G91 G1 Y0.001 F100\nG90\n');
                     chilipeppr.publish("/com-chilipeppr-widget-serialport/recvline", {
                         dataline: '{"sr":{"vel":0.02,"mpox":10.474,"dist":1,"stat":5}}\n'
@@ -55,7 +59,7 @@ cprequire_test(["inline:com-chilipeppr-widget-spconsole"], function(sp) {
                 }
             }, 3500);
 
-            sp.init(true);
+            sp.init(true, /^{/);
 
         }
         else {
@@ -73,7 +77,7 @@ cprequire_test(["inline:com-chilipeppr-widget-spconsole"], function(sp) {
         }
     }
     test();
-    sp.init(true, /^{/);
+    //sp.init(true, /^{/);
 
 } /*end_test*/ );
 
