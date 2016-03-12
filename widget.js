@@ -469,7 +469,9 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
             var delta = $(window).height() - wht;
             //console.log("delta:", delta, "wht:", wht);
             var loght = $('.com-chilipeppr-widget-spconsole-console-log').height();
-            $('.com-chilipeppr-widget-spconsole-console-log').height(loght + delta - 13);
+            var newHeight = loght + delta - 13;
+            console.log("serial port console newHeight:", newHeight);
+            $('.com-chilipeppr-widget-spconsole-console-log').height(newHeight);
         },
         resizerSetup: function() {
             // due to the layout complexity here of being
