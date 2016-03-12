@@ -420,6 +420,7 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
                     $(".com-chilipeppr-widget-spconsole-console-log").css('width', 'initial');
                 }
             });
+            this.resizerSetup();
         },
         subscribeSetup: function() {
             // We will subscribe to the port list.
@@ -461,7 +462,19 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
                 hdr.text("Serial Port Console - " + "No port selected");
             }
         },
+        resizePtr: null,
         resize: function() {
+            // trigger a resize with a delay and a de-dupe procedure in case we get called multiple times
+            // quickly, cuz we could get contention on resize
+            if (this.resizePtr == null) {
+                this.resizePtr = setTimeout(this.resizeCallback.bind(this), 500);
+            } else {
+                console.log("resize: got resize called, but we are already in queue. we will reset delay.");
+                clearTimeout(this.resizePtr);
+                this.resizePtr = setTimeout(this.resizeCallback.bind(this), 500);
+            }
+        },
+        resizeCallback: function() {
             // add the top of the widget + height of widget
             // to get sizing. then subtract that from height of window to figure out what height to add (subtract) from log
             var wdgt = $('.com-chilipeppr-widget-spconsole');
@@ -470,8 +483,11 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
             //console.log("delta:", delta, "wht:", wht);
             var loght = $('.com-chilipeppr-widget-spconsole-console-log').height();
             var newHeight = loght + delta - 13;
-            console.log("serial port console newHeight:", newHeight);
+            // don't let newHeight go lower than 100 cuz people think window is hidden then
+            if (newHeight < 20) newHeight = 20;
+            console.log("resize: serial port console newHeight:", newHeight);
             $('.com-chilipeppr-widget-spconsole-console-log').height(newHeight);
+            this.resizePtr = null;
         },
         resizerSetup: function() {
             // due to the layout complexity here of being
