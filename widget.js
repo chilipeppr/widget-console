@@ -476,10 +476,10 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
                 hdr.html("Serial Port Console <span class=\"subtitle\">" + this.portBoundTo.Name + "</span>");
             }
             else if (ctrPorts > 1) {
-                hdr.html("Serial Port Console - " + "Multiple serial ports selected (pick one for now).");
+                hdr.html("Serial Port Console <span class=\"subtitle\">" + "Multiple serial ports selected (pick one for now).</span>");
             }
             else {
-                hdr.html("Serial Port Console - " + "No port selected");
+                hdr.html("Serial Port Console <span class=\"subtitle\">" + "No port selected</span>");
             }
         },
         resizePtr: null,
