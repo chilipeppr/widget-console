@@ -867,7 +867,7 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
                 var loghtml = log.html();
                 log.html("--truncated--" + loghtml.substring(loghtml.length - 2500));
             }
-            if (msg.appendTo)
+            if (msg && msg.appendTo)
                 msg.appendTo(log);
             else
                 log.html(log.html() + msg);
