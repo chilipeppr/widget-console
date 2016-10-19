@@ -301,7 +301,7 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
             //if (this.jsonModeSingleSelectPort)
             //    $('.com-chilipeppr-widget-spconsole .subtitle').text("(" + this.jsonModeSingleSelectPort + ")");
             //else
-            $('.com-chilipeppr-widget-spconsole .subtitle').text("");
+            $('.com-chilipeppr-widget-spconsole .subtitle').text(this.portBoundTo.Name);
 
 
         },
