@@ -271,6 +271,11 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
             }
 
             this.setupOnPaste();
+            
+            // we also subscribe to recvSingleSelectPort in case the user overrides
+            // the single select port
+            chilipeppr.subscribe("/com-chilipeppr-widget-serialport/recvSingleSelectPort", this, this.onRecvSingleSelectPort);
+            
 
             console.log(this.name + " done loading.");
             console.groupEnd();
@@ -533,9 +538,6 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
             // we can also publish a request to resend the list
             chilipeppr.publish("/com-chilipeppr-widget-serialport/getlist", "");
             
-            // we also subscribe to recvSingleSelectPort in case the user overrides
-            // the single select port
-            chilipeppr.subscribe("/com-chilipeppr-widget-serialport/recvSingleSelectPort", this, this.onRecvSingleSelectPort);
             
         },
         onRecvSingleSelectPort: function(data) {
