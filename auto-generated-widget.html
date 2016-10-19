@@ -569,7 +569,7 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
             var hdr = $('.com-chilipeppr-widget-spconsole .panel-heading .panel-title');
             if (ctrPorts == 1) {
                 // we have a single port. good. this is easy
-                hdr.html("Serial Port Console <span class=\"subtitle\">" + this.portBoundTo.Friendly + "</span>");
+                hdr.html("Serial Port Console <span class=\"subtitle\">" + this.portBoundTo.Name + "</span>");
             }
             else if (ctrPorts > 1) {
                 hdr.html("Serial Port Console - " + "Multiple serial ports selected (pick one for now).");
