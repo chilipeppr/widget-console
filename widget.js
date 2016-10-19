@@ -121,6 +121,10 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
             //console.log("init called");
             console.group("init of serial port console");
 
+            // we also subscribe to recvSingleSelectPort in case the user overrides
+            // the single select port
+            chilipeppr.subscribe("/com-chilipeppr-widget-serialport/recvSingleSelectPort", this, this.onRecvSingleSelectPort);
+
             // load jquery-ui css, but make sure nobody else loaded it
             if (!$("link[href='//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css']").length)
                 $('<link>')
@@ -176,9 +180,6 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
 
             this.setupOnPaste();
             
-            // we also subscribe to recvSingleSelectPort in case the user overrides
-            // the single select port
-            chilipeppr.subscribe("/com-chilipeppr-widget-serialport/recvSingleSelectPort", this, this.onRecvSingleSelectPort);
             
 
             console.log(this.name + " done loading.");
