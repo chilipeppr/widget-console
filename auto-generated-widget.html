@@ -526,6 +526,20 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
             // Since we may load after the ChiliPeppr Serial Port Server object
             // we can also publish a request to resend the list
             chilipeppr.publish("/com-chilipeppr-widget-serialport/getlist", "");
+            
+            // we also subscribe to recvSingleSelectPort in case the user overrides
+            // the single select port
+            chilipeppr.subscribe("/com-chilipeppr-widget-serialport/recvSingleSelectPort", this, this.onRecvSingleSelectPort);
+            
+        },
+        onRecvSingleSelectPort: function(data) {
+            // we need to override what port we're bound to here
+            console.log("onRecvSingleSelectPort. data:", data);
+            this.portBoundTo = data;
+            this.portIsBound = true;
+            var hdr = $('.com-chilipeppr-widget-spconsole .panel-heading .panel-title');
+            hdr.html("Serial Port Console <span class=\"subtitle\">" + this.portBoundTo.Friendly + "</span>");
+            
         },
         onPortList: function(ports) {
             // This gets called when a publish occurs on
@@ -546,10 +560,10 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
                     that.portIsBound = true;
                 }
             });
-            var hdr = $('.com-chilipeppr-widget-spconsole .panel-heading');
+            var hdr = $('.com-chilipeppr-widget-spconsole .panel-heading .panel-title');
             if (ctrPorts == 1) {
                 // we have a single port. good. this is easy
-                hdr.text("Serial Port Console - " + this.portBoundTo.Friendly + "");
+                hdr.html("Serial Port Console <span class=\"subtitle\">" + this.portBoundTo.Friendly + "</span>");
             }
             else if (ctrPorts > 1) {
                 hdr.text("Serial Port Console - " + "Multiple serial ports selected (pick one for now).");
