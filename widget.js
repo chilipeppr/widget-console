@@ -78,6 +78,12 @@ cprequire_test(["inline:com-chilipeppr-widget-spconsole"], function(sp) {
     }
     test();
     //sp.init(true, /^{/);
+    
+    // test a recvSingleSelectPort
+    // var testRecvPortChange = function() {
+    //     chilipeppr.publish("/com-chilipeppr-widget-serialport/recvSingleSelectPort", 
+    //     )
+    // }
 
 } /*end_test*/ );
 
@@ -442,7 +448,7 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
             this.portBoundTo = data;
             this.portIsBound = true;
             var hdr = $('.com-chilipeppr-widget-spconsole .panel-heading .panel-title');
-            hdr.html("Serial Port Console <span class=\"subtitle\">" + this.portBoundTo.Friendly + "</span>");
+            hdr.html("Serial Port Console <span class=\"subtitle\">" + this.portBoundTo.Name + "</span>");
             
         },
         onPortList: function(ports) {
@@ -470,10 +476,10 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
                 hdr.html("Serial Port Console <span class=\"subtitle\">" + this.portBoundTo.Friendly + "</span>");
             }
             else if (ctrPorts > 1) {
-                hdr.text("Serial Port Console - " + "Multiple serial ports selected (pick one for now).");
+                hdr.html("Serial Port Console - " + "Multiple serial ports selected (pick one for now).");
             }
             else {
-                hdr.text("Serial Port Console - " + "No port selected");
+                hdr.html("Serial Port Console - " + "No port selected");
             }
         },
         resizePtr: null,
