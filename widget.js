@@ -244,6 +244,7 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
             }, 25);
         },
         isInJsonMode: false, // store whether we are in json mode
+        isAlreadySubscribeToRecvLin: false,
         setSinglePortMode: function() {
             // in this mode we just show signals from the channel
             // /com-chilipeppr-widget-serialport/recvline 
@@ -255,7 +256,11 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
 
             // in single port mode, we only recv serial data in line by line
             // mode (as opposed to multi-port where we get it block by block
-            chilipeppr.subscribe("/com-chilipeppr-widget-serialport/recvline", this, this.onRecvLine);
+            if (!this.isAlreadySubscribeToRecvLin) {
+                chilipeppr.subscribe("/com-chilipeppr-widget-serialport/recvline", this, this.onRecvLine);
+                this.isAlreadySubscribeToRecvLin = true;
+            }
+            
             // if another widget sends a serial cmd, echo it here
             //chilipeppr.subscribe("/com-chilipeppr-widget-serialport/send", this, this.onEchoOfSend);
 
