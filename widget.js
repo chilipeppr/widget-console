@@ -334,6 +334,7 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
             chilipeppr.subscribe("/com-chilipeppr-widget-serialport/onQueue", this, this.jsonOnQueue);
             chilipeppr.subscribe("/com-chilipeppr-widget-serialport/onWrite", this, this.jsonOnWrite);
             chilipeppr.subscribe("/com-chilipeppr-widget-serialport/onComplete", this, this.jsonOnComplete);
+            
             console.groupEnd();
         },
         unsetupJsonMode: function() {
@@ -409,6 +410,9 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
                 $('.com-chilipeppr-widget-spconsole-console-log #' + data.Id + " span").removeClass('cmd-queued cmd-write').addClass('cmd-complete');
         },
         onRecvLine: function(data) {
+            // if we are in json mode, then we don't want recvlines
+            if (this.isInJsonMode) return;
+            
             if (data.dataline) {
                 this.appendLog(data.dataline);
             }
