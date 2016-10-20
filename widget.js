@@ -259,6 +259,8 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
             if (!this.isAlreadySubscribeToRecvLin) {
                 chilipeppr.subscribe("/com-chilipeppr-widget-serialport/recvline", this, this.onRecvLine);
                 this.isAlreadySubscribeToRecvLin = true;
+            } else {
+                console.warn("already subscribed to recvline in console");
             }
             
             // if another widget sends a serial cmd, echo it here
