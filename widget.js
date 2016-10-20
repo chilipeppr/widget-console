@@ -752,7 +752,7 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
             //console.log("appendLog. msg:", msg);
 
             // if msg null then just return
-            if (!msg) {
+            if (typeof msg == 'undefined' || msg == null) {
                 return;
             }
 
@@ -770,7 +770,7 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
             var d = this.logEls.logOuter[0];
             var doScroll = d.scrollTop == d.scrollHeight - d.clientHeight;
             var log = this.logEls.log;
-            if (log.html().length > 25000) {
+            if (log.html().length > 50000) {
                 // truncating log
                 console.log("Truncating log.");
                 /*
