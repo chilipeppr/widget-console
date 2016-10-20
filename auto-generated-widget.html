@@ -847,7 +847,13 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
         appendLog: function(msg) {
             //console.log("appendLog. msg:", msg);
 
+            // if msg null then just return
+            if (!msg) {
+                return;
+            }
+
             if (this.isFilterActive) {
+                
                 // see if log matches filter and ignore
                 if (!(msg.appendTo) && msg.match(this.filterRegExp)) {
                     return;
