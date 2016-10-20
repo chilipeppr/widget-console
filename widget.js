@@ -767,7 +767,7 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
             logOuter: null,
         },
         appendLog: function(msg) {
-            console.warn("appendLog. msg:", msg);
+            //console.warn("appendLog. msg:", msg);
 
             // if msg null then just return
             if (typeof msg == 'undefined' || msg == null) {
