@@ -244,7 +244,7 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
             }, 25);
         },
         isInJsonMode: false, // store whether we are in json mode
-        isAlreadySubscribeToRecvLin: false,
+        isAlreadySubscribeToRecvLine: false,
         setSinglePortMode: function() {
             // in this mode we just show signals from the channel
             // /com-chilipeppr-widget-serialport/recvline 
@@ -256,9 +256,9 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
 
             // in single port mode, we only recv serial data in line by line
             // mode (as opposed to multi-port where we get it block by block
-            if (!this.isAlreadySubscribeToRecvLin) {
+            if (!this.isAlreadySubscribeToRecvLine) {
                 chilipeppr.subscribe("/com-chilipeppr-widget-serialport/recvline", this, this.onRecvLine);
-                this.isAlreadySubscribeToRecvLin = true;
+                this.isAlreadySubscribeToRecvLine = true;
             } else {
                 console.warn("already subscribed to recvline in console");
             }
@@ -717,26 +717,33 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
             } // if
           }, 5);
         },
+        isAlreadySubscribedToWsRecv: false,
         consoleSubscribeToLowLevelSerial: function() {
             // subscribe to websocket events
-            chilipeppr.subscribe("/com-chilipeppr-widget-serialport/ws/recv", this, function(msg) {
-                // make sure the data is for the port we're bound to
-                if (msg.match(/^\{/)) {
-                    // it's json
-                    //console.log("it is json");
-                    var data = $.parseJSON(msg);
-                    if (this.portBoundTo && this.portBoundTo.Name && data.P && data.P == this.portBoundTo.Name) {
-                        // this is our serial port data
-                        var d = data.D;
-                        // convert newlines
-                        //console.log("data before replace:", d);
-                        //d.replace(/\r\n|\r|\n/gm, "<br/>");
-                        //var spd = $("<div/>").text(data.D);
-                        //console.log("data after replace:", d);
-                        this.appendLog(d);
+            if (this.isAlreadySubscribedToWsRecv) {
+                console.warn("already subscribed to /ws/recv in console, so not subscribing again");
+            } else {
+                this.isAlreadySubscribedToWsRecv = true;
+                chilipeppr.subscribe("/com-chilipeppr-widget-serialport/ws/recv", this, function(msg) {
+            
+                    // make sure the data is for the port we're bound to
+                    if (msg.match(/^\{/)) {
+                        // it's json
+                        //console.log("it is json");
+                        var data = $.parseJSON(msg);
+                        if (this.portBoundTo && this.portBoundTo.Name && data.P && data.P == this.portBoundTo.Name) {
+                            // this is our serial port data
+                            var d = data.D;
+                            // convert newlines
+                            //console.log("data before replace:", d);
+                            //d.replace(/\r\n|\r|\n/gm, "<br/>");
+                            //var spd = $("<div/>").text(data.D);
+                            //console.log("data after replace:", d);
+                            this.appendLog(d);
+                        }
                     }
-                }
-            });
+                });
+            }
         },
         appendLogEchoCmd: function(msg) {
             //console.log("appendLogEchoCmd. msg:", msg);
