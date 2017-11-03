@@ -415,14 +415,14 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
         },
         onRecvLine: function(data) {
             // if we are in json mode, then we don't want recvlines
-            console.log("regexp onRecvLine. data:", data);
+            // console.log("regexp onRecvLine. data:", data);
             if (this.isInJsonMode) {
-                console.log("we are isInJsonMode so returning");
+                // console.log("we are isInJsonMode so returning");
                 return;
             }
             
             if (data.dataline) {
-                console.log("passing to appendLog. data.dataline:", data.dataline);
+                // console.log("passing to appendLog. data.dataline:", data.dataline);
                 this.appendLog(data.dataline);
             }
         },
@@ -752,15 +752,15 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
                             // this is our serial port data
                             var d = data.D;
                             // convert newlines
-                            console.log("data before replace:", d);
-                            console.log("this.dataBuffer:", this.dataBuffer);
+                            // console.log("data before replace:", d);
+                            // console.log("this.dataBuffer:", this.dataBuffer);
                             
                             
                             // what we're doing here is buffering the incoming data to then
                             // split on newlines and then passing to appendLog
                             
                             if (d == undefined) {
-                                console.log("data was undefined so not appending");
+                                // console.log("data was undefined so not appending");
                             } else {
                                 this.dataBuffer += d;
                             }
@@ -769,12 +769,12 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
                             while (this.dataBuffer.match(/\n/)) {
                                 //console.log("we have a newline.");
                                 var tokens = this.dataBuffer.split(/\r{0,1}\n/);
-                                console.log("tokens:", tokens, "joined:", tokens.join(" : "));
+                                // console.log("tokens:", tokens, "joined:", tokens.join(" : "));
                                 var line = tokens.shift() + "\n";
                                 // this.dataBuffer = tokens.filter(function (val) {return val;}).join("\n");
                                 this.dataBuffer = tokens.join("\n");
-                                console.log("publishing line:", line);
-                                console.log("new buffer:", this.dataBuffer, "len:", this.dataBuffer.length);
+                                // console.log("publishing line:", line);
+                                // console.log("new buffer:", this.dataBuffer, "len:", this.dataBuffer.length);
                                 
                                 this.appendLog(line);
                             }
@@ -807,7 +807,7 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
             logOuter: null,
         },
         appendLog: function(msg) {
-            console.warn("regexp appendLog. msg:", msg);
+            // console.warn("regexp appendLog. msg:", msg);
 
             // if msg null then just return
             if (typeof msg == 'undefined' || msg == null) {
@@ -818,10 +818,10 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
                 
                 // see if log matches filter and ignore
                 if (!(msg.appendTo) && msg.match(this.filterRegExp)) {
-                    console.log("regexp filter active and we matched so not printing. would have printed:", msg);
+                    // console.log("regexp filter active and we matched so not printing. would have printed:", msg);
                     return;
                 } else {
-                    console.log("regexp msg did not match. msg:", msg);
+                    // console.log("regexp msg did not match. msg:", msg);
                 }
             }
 
@@ -843,11 +843,16 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
                 var loghtml = log.html();
                 log.html("--truncated--" + loghtml.substring(loghtml.length - 2500));
             }
-            if (msg && msg.appendTo)
+            if (msg && msg.appendTo) {
+                // msg is html element
                 msg.appendTo(log);
-            else
+            } else {
+                // msg is raw text
+                // swap < and > for &lt; and &gt;
+                msg.replace("<", "&lt;").replace(">", "&gt;");
                 log.html(log.html() + msg);
-
+            }
+            
             //if (doScroll) {
             d.scrollTop = d.scrollHeight - d.clientHeight;
             //}
