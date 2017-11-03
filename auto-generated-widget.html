@@ -945,7 +945,7 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
             } else {
                 // msg is raw text
                 // swap < and > for &lt; and &gt;
-                msg.replace("<", "&lt;").replace(">", "&gt;");
+                msg = msg.replace("<", "&lt;").replace(">", "&gt;");
                 log.html(log.html() + msg);
             }
             
@@ -1007,7 +1007,7 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
                 data-trigger="hover" data-delay="500"><span class="glyphicon glyphicon-filter"></span></button>
             </div>
 
-            <span class="panel-title">Serial Port Console v18 <span class="subtitle">(Multi Port Mode)</span></span>
+            <span class="panel-title">Serial Port Console v19 <span class="subtitle">(Multi Port Mode)</span></span>
         </div>
         <div class="panel-body com-chilipeppr-widget-spconsole-body">
             <div class="com-chilipeppr-widget-spconsole-console-log">

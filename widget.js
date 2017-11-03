@@ -849,7 +849,7 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
             } else {
                 // msg is raw text
                 // swap < and > for &lt; and &gt;
-                msg.replace("<", "&lt;").replace(">", "&gt;");
+                msg = msg.replace("<", "&lt;").replace(">", "&gt;");
                 log.html(log.html() + msg);
             }
             
