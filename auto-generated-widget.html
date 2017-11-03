@@ -830,6 +830,7 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
           }, 5);
         },
         isAlreadySubscribedToWsRecv: false,
+        dataBuffer: "",
         consoleSubscribeToLowLevelSerial: function() {
             // subscribe to websocket events
             if (this.isAlreadySubscribedToWsRecv) {
@@ -848,10 +849,29 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
                             var d = data.D;
                             // convert newlines
                             console.log("data before replace:", d);
+                            
+                            // what we're doing here is buffering the incoming data to then
+                            // split on newlines and then passing to appendLog
+                            
+                            this.dataBuffer += d;
+
+                            // see if we got newline
+                            while (this.dataBuffer.match(/\n/)) {
+                                //console.log("we have a newline.");
+                                var tokens = this.dataBuffer.split(/\n/);
+                                var line = tokens.shift() + "\n";
+                                this.dataBuffer = tokens.join("\n");
+                                console.log("publishing line:", line);
+                                console.log("new buffer:", this.dataBuffer, "len:", this.dataBuffer.length);
+                                
+                                this.appendLog(d);
+                            }
+                            
                             //d.replace(/\r\n|\r|\n/gm, "<br/>");
                             //var spd = $("<div/>").text(data.D);
                             //console.log("data after replace:", d);
-                            this.appendLog(d);
+                            
+                            // this.appendLog(d);
                         }
                     }
                 });
