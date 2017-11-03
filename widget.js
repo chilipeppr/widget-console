@@ -558,7 +558,10 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
             // load the pubsub viewer / fork element which decorates our upper right pulldown
             // menu with the ability to see the pubsubs from this widget and the forking links
             var that = this;
-            chilipeppr.load("http://fiddle.jshell.net/chilipeppr/zMbL9/show/light/", function() {
+            chilipeppr.load(
+                "http://raw.githubusercontent.com/chilipeppr/widget-pubsubviewer/master/auto-generated-widget.html",
+                // "http://fiddle.jshell.net/chilipeppr/zMbL9/show/light/", 
+                function() {
                 require(['inline:com-chilipeppr-elem-pubsubviewer'], function(pubsubviewer) {
                     pubsubviewer.attachTo($('.com-chilipeppr-widget-spconsole .panel-heading .dropdown-menu'), that);
                 });
