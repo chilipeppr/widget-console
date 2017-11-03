@@ -763,7 +763,7 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
                             while (this.dataBuffer.match(/\n/)) {
                                 //console.log("we have a newline.");
                                 var tokens = this.dataBuffer.split(/\n/);
-                                console.log("tokens:", tokens);
+                                console.log("tokens:", tokens, "joined:", tokens.join(" : "));
                                 var line = tokens.shift() + "\n";
                                 this.dataBuffer = tokens.filter(function (val) {return val;}).join("\n");
                                 console.log("publishing line:", line);
