@@ -755,11 +755,16 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
                             console.log("data before replace:", d);
                             console.log("this.dataBuffer:", this.dataBuffer);
                             
+                            
                             // what we're doing here is buffering the incoming data to then
                             // split on newlines and then passing to appendLog
                             
-                            this.dataBuffer += d;
-
+                            if (d == undefined) {
+                                console.log("data was undefined so not appending");
+                            } else {
+                                this.dataBuffer += d;
+                            }
+                            
                             // see if we got newline
                             while (this.dataBuffer.match(/\n/)) {
                                 //console.log("we have a newline.");
