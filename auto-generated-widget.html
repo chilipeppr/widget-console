@@ -881,6 +881,7 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
                 
                 // see if log matches filter and ignore
                 if (!(msg.appendTo) && msg.match(this.filterRegExp)) {
+                    console.log("regexp filter active and we matched so not printing. would have printed:", msg);
                     return;
                 }
             }
