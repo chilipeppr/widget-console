@@ -751,7 +751,7 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
                             // this is our serial port data
                             var d = data.D;
                             // convert newlines
-                            // console.log("data before replace:", d);
+                            console.log("data before replace:", d);
                             //d.replace(/\r\n|\r|\n/gm, "<br/>");
                             //var spd = $("<div/>").text(data.D);
                             //console.log("data after replace:", d);
