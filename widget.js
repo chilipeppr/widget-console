@@ -774,7 +774,7 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
             logOuter: null,
         },
         appendLog: function(msg) {
-            //console.warn("appendLog. msg:", msg);
+            console.warn("regexp appendLog. msg:", msg);
 
             // if msg null then just return
             if (typeof msg == 'undefined' || msg == null) {
@@ -787,6 +787,8 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
                 if (!(msg.appendTo) && msg.match(this.filterRegExp)) {
                     console.log("regexp filter active and we matched so not printing. would have printed:", msg);
                     return;
+                } else {
+                    console.log("regexp msg did not match. msg:", msg);
                 }
             }
 
