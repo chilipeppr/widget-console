@@ -416,7 +416,10 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
         onRecvLine: function(data) {
             // if we are in json mode, then we don't want recvlines
             console.log("regexp onRecvLine. data:", data);
-            if (this.isInJsonMode) return;
+            if (this.isInJsonMode) {
+                console.log("we are isInJsonMode so returning");
+                return;
+            }
             
             if (data.dataline) {
                 console.log("passing to appendLog. data.dataline:", data.dataline);
