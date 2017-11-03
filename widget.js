@@ -775,7 +775,7 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
                                 console.log("publishing line:", line);
                                 console.log("new buffer:", this.dataBuffer, "len:", this.dataBuffer.length);
                                 
-                                this.appendLog(d);
+                                this.appendLog(line);
                             }
                             
                             //d.replace(/\r\n|\r|\n/gm, "<br/>");

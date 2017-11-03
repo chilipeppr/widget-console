@@ -871,7 +871,7 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
                                 console.log("publishing line:", line);
                                 console.log("new buffer:", this.dataBuffer, "len:", this.dataBuffer.length);
                                 
-                                this.appendLog(d);
+                                this.appendLog(line);
                             }
                             
                             //d.replace(/\r\n|\r|\n/gm, "<br/>");
@@ -1001,7 +1001,7 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
                 data-trigger="hover" data-delay="500"><span class="glyphicon glyphicon-filter"></span></button>
             </div>
 
-            <span class="panel-title">Serial Port Console v14 <span class="subtitle">(Multi Port Mode)</span></span>
+            <span class="panel-title">Serial Port Console v15 <span class="subtitle">(Multi Port Mode)</span></span>
         </div>
         <div class="panel-body com-chilipeppr-widget-spconsole-body">
             <div class="com-chilipeppr-widget-spconsole-console-log">
