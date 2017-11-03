@@ -258,7 +258,11 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
             if (filterRegExp) {
                 var that = this;
                 console.log("they want regexp filter:", filterRegExp);
-                $('.com-chilipeppr-widget-spconsole .spconsole-filter').removeClass("hidden");
+                var funnelEl = $('.com-chilipeppr-widget-spconsole .spconsole-filter');
+                funnelEl.removeClass("hidden");
+                funnelEl.attr('data-content', funnelEl.attr('data-content') + " The filter is set to: " + filterRegExp.toString());
+                // funnelEl.data('content', "blah");
+                console.log("regexp hover content", funnelEl.attr('data-content'));
                 this.filterRegExp = filterRegExp;
                 this.isFilterActive = true;
                 // attach click event
