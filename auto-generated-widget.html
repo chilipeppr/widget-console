@@ -849,6 +849,7 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
                             var d = data.D;
                             // convert newlines
                             console.log("data before replace:", d);
+                            console.log("this.dataBuffer:", this.dataBuffer);
                             
                             // what we're doing here is buffering the incoming data to then
                             // split on newlines and then passing to appendLog
