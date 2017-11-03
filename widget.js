@@ -764,7 +764,7 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
                                 //console.log("we have a newline.");
                                 var tokens = this.dataBuffer.split(/\n/);
                                 var line = tokens.shift() + "\n";
-                                this.dataBuffer = $.grep(tokens, Boolean).join("\n");
+                                this.dataBuffer = tokens.filter(function (val) {return val;}).join("\n");
                                 console.log("publishing line:", line);
                                 console.log("new buffer:", this.dataBuffer, "len:", this.dataBuffer.length);
                                 
