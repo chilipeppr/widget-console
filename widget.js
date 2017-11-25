@@ -84,6 +84,10 @@ cprequire_test(["inline:com-chilipeppr-widget-spconsole"], function(sp) {
     //     chilipeppr.publish("/com-chilipeppr-widget-serialport/recvSingleSelectPort", 
     //     )
     // }
+    
+    setTimeout(function() {
+        sp.setFilter(/^ok|^\n|^\[G|^</);
+    }, 10000);
 
 } /*end_test*/ );
 
@@ -160,38 +164,42 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
 
             // see if instantiator wants us to apply a filter
             if (filterRegExp) {
-                var that = this;
-                console.log("they want regexp filter:", filterRegExp);
-                var funnelEl = $('.com-chilipeppr-widget-spconsole .spconsole-filter');
-                funnelEl.removeClass("hidden");
-                funnelEl.attr('data-content', funnelEl.attr('data-content') + " The filter is set to: " + filterRegExp.toString());
-                // funnelEl.data('content', "blah");
-                console.log("regexp hover content", funnelEl.attr('data-content'));
-                this.filterRegExp = filterRegExp;
-                this.isFilterActive = true;
-                // attach click event
-                $('.com-chilipeppr-widget-spconsole .spconsole-filter').click(function() {
-                    // toggle filter
-                    that.isFilterActive = !that.isFilterActive;
-                    if (that.isFilterActive) {
-                        $('.com-chilipeppr-widget-spconsole .spconsole-filter').addClass("active");
-                    }
-                    else {
-                        $('.com-chilipeppr-widget-spconsole .spconsole-filter').removeClass("active");
-                    }
-                });
+                this.setFilter(filterRegExp)
             }
+            var that = this;
+            $('.com-chilipeppr-widget-spconsole .spconsole-filter').click(function() {
+                // toggle filter
+                that.isFilterActive = !that.isFilterActive;
+                if (that.isFilterActive) {
+                    $('.com-chilipeppr-widget-spconsole .spconsole-filter').addClass("active");
+                }
+                else {
+                    $('.com-chilipeppr-widget-spconsole .spconsole-filter').removeClass("active");
+                }
+            });
 
             this.setupOnPaste();
             
-            
-
             console.log(this.name + " done loading.");
             console.groupEnd();
         },
         // global props for filtering console
         filterRegExp: null,
         isFilterActive: false,
+        setFilter: function(filterRegExp) {
+            var that = this;
+            console.log("they want regexp filter:", filterRegExp);
+            var funnelEl = $('.com-chilipeppr-widget-spconsole .spconsole-filter');
+            funnelEl.removeClass("hidden");
+            funnelEl.attr('data-content', 'Toggle the filter. A filter can be applied to remove lower priority information from getting logged. The filter is set by the workspace you are in.' + 
+                " The filter is set to: " + filterRegExp.toString());
+            // funnelEl.data('content', "blah");
+            console.log("regexp hover content", funnelEl.attr('data-content'));
+            this.filterRegExp = filterRegExp;
+            this.isFilterActive = true;
+            // attach click event
+            
+        },
         setupClearBtn: function() {
             $('.com-chilipeppr-widget-spconsole .spconsole-clear').click(this.onClear.bind(this));
             //this.appendLog("asdfasdf");
