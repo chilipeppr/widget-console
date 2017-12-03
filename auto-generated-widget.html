@@ -657,9 +657,9 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
             this.portIsBound = true;
             var hdr = $('.com-chilipeppr-widget-spconsole .panel-heading .panel-title');
             if (this.portBoundTo)
-                hdr.html("Serial Port Console <span class=\"subtitle\">" + this.portBoundTo.Name + "</span>");
+                hdr.html("Console <span class=\"subtitle\">" + this.portBoundTo.Name + "</span>");
             else
-                hdr.html("Serial Port Console <span class=\"subtitle\">" + "No port" + "</span>");
+                hdr.html("Console <span class=\"subtitle\">" + "No port" + "</span>");
             
         },
         onPortList: function(ports) {
@@ -1112,7 +1112,7 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
                 data-trigger="hover" data-delay="500"><span class="glyphicon glyphicon-filter" style="zoom:0.8;"></span><span class="glyphicon glyphicon-pencil"></span></button>
             </div>
 
-            <span class="panel-title">Serial Port Console v24 <span class="subtitle">(Multi Port Mode)</span></span>
+            <span class="panel-title">Serial Port Console v25 <span class="subtitle">(Multi Port Mode)</span></span>
             
             <div class="hidden com-chilipeppr-widget-spconsole-regexp-region" style="padding-top:10px;">
                 <div style="font-size:11px;">You need to enter a regular expression. Note that special characters must be escaped like $[].*?, etc. Your 

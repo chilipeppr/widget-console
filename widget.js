@@ -561,9 +561,9 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
             this.portIsBound = true;
             var hdr = $('.com-chilipeppr-widget-spconsole .panel-heading .panel-title');
             if (this.portBoundTo)
-                hdr.html("Serial Port Console <span class=\"subtitle\">" + this.portBoundTo.Name + "</span>");
+                hdr.html("Console <span class=\"subtitle\">" + this.portBoundTo.Name + "</span>");
             else
-                hdr.html("Serial Port Console <span class=\"subtitle\">" + "No port" + "</span>");
+                hdr.html("Console <span class=\"subtitle\">" + "No port" + "</span>");
             
         },
         onPortList: function(ports) {
