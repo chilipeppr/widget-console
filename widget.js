@@ -39,12 +39,12 @@ cprequire_test(["inline:com-chilipeppr-widget-spconsole"], function(sp) {
                 });
             }, 1000);
             
-            setInterval(function() {
-                chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
-                    D: '$G\n',
-                    Id: "g" + ctr++
-                });
-            }, 2000);
+            // setInterval(function() {
+            //     chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
+            //         D: '$G\n',
+            //         Id: "g" + ctr++
+            //     });
+            // }, 2000);
 
             setTimeout(function() {
                 chilipeppr.publish("/com-chilipeppr-widget-serialport/recvline", {
@@ -91,7 +91,7 @@ cprequire_test(["inline:com-chilipeppr-widget-spconsole"], function(sp) {
     
     // test a recvSingleSelectPort
     // var testRecvPortChange = function() {
-    //     chilipeppr.publish("/com-chilipeppr-widget-serialport/recvSingleSelectPort",  );
+    //     chilipeppr.publish("/com-chilipeppr-widget-serialport/recvSingleSelectPort",  {Name: "COM4", Friendly: "NodeMCU / CP2102 (COM4)", SerialNumber: "USB\VID_10C4&PID_EA60\014ADB5C", DeviceClass: "", IsOpen: true, …});
     // }
     
     // Inject new div to contain widget or use an existing div with an ID
@@ -105,17 +105,18 @@ cprequire_test(["inline:com-chilipeppr-widget-spconsole"], function(sp) {
         // Now use require.js to get reference to instantiated widget
         cprequire(
           ["inline:com-chilipeppr-widget-serialport"], // the id you gave your widget
-          function(myObjWidgetSerialport) {
+          function(spjs) {
             // Callback that is passed reference to the newly loaded widget
-            console.log("Widget / Serial Port JSON Server just got loaded.", myObjWidgetSerialport);
-            myObjWidgetSerialport.init();
+            console.log("Widget / Serial Port JSON Server just got loaded.", spjs);
+            spjs.setSingleSelectMode();
+            spjs.init();
           }
         );
       }
     );
     
     setTimeout(function() {
-        sp.setFilter(/^ok|^\n|^\[G|^</);
+        sp.setFilter(/^ok|^\n|^\[G|^<|\$G/);
     }, 10000);
 
 } /*end_test*/ );
@@ -209,8 +210,36 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
 
             this.setupOnPaste();
             
+            this.setupRegexpEditButtons();
+            
             console.log(this.name + " done loading.");
             console.groupEnd();
+        },
+        setupRegexpEditButtons: function() {
+            
+            // setup the toggle show of the filter edit box
+            $('.spconsole-filter-edit').click(() => {
+                if ($('.com-chilipeppr-widget-spconsole-regexp-region').hasClass("hidden")) {
+                    // the region is hidden, so show it
+                    $('.com-chilipeppr-widget-spconsole .spconsole-filter-edit').addClass("active");
+                    $('.com-chilipeppr-widget-spconsole-regexp-region').removeClass("hidden");
+                    $('.com-chilipeppr-widget-spconsole-regexp-input').val(this.getFilter());
+                } else {
+                    // the region is showing, hide it
+                    $('.com-chilipeppr-widget-spconsole .spconsole-filter-edit').removeClass("active");
+                    $('.com-chilipeppr-widget-spconsole-regexp-region').addClass("hidden");
+                }
+            });
+            
+            // handle the "Set as Filter" button
+            $('.com-chilipeppr-widget-spconsole-regexp-setbtn').click(() => {
+                var newFilterTxt = $('.com-chilipeppr-widget-spconsole-regexp-input').val();
+                console.log("being asked to set filter:", newFilterTxt);
+                this.setFilter(newFilterTxt);
+                // act as if we clicked the hide edit filter button to toggle it off
+                $('.spconsole-filter-edit').click();
+            });
+            
         },
         // global props for filtering console
         filterRegExp: null,
@@ -226,8 +255,15 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
             console.log("regexp hover content", funnelEl.attr('data-content'));
             this.filterRegExp = filterRegExp;
             this.isFilterActive = true;
+            
+            // set the manual edit box
+            $('.com-chilipeppr-widget-spconsole-regexp-input').val(this.filterRegExp);
+            
             // attach click event
             
+        },
+        getFilter: function() {
+            return this.filterRegExp;
         },
         setupClearBtn: function() {
             $('.com-chilipeppr-widget-spconsole .spconsole-clear').click(this.onClear.bind(this));
@@ -851,12 +887,24 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
                 return;
             }
 
+            // if there is a regular expression set, we will enter the analysis here
+            // remember, we get text and jquery HTML element payloads
             if (this.isFilterActive) {
                 
                 // see if log matches filter and ignore
                 if (!(msg.appendTo) && msg.match(this.filterRegExp)) {
+                    // this means it's a text object and it matched the regexp
                     // console.log("regexp filter active and we matched so not printing. would have printed:", msg);
                     return;
+                } else if (msg.appendTo) {
+                    // this means it's a jquery object, we have to probe deeper on the text to filter
+                    if (msg.text().match(this.filterRegExp)) {
+                        // console.log("found HTML element log and the HTML text matched the regexp, so not printing. would have printed:", msg.text());
+                        return;
+                    } else {
+                        // console.log("found HTML element, but it did not match regexp so still printing.");
+                    }
+                
                 } else {
                     // console.log("regexp msg did not match. msg:", msg);
                 }

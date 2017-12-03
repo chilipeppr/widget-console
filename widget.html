@@ -52,9 +52,19 @@
                 data-delay="500"><span class="glyphicon glyphicon-ban-circle"></span></button>
                 <button type="button" class="hidden btn btn-xs btn-default spconsole-filter active" data-container="body" data-toggle="popover" data-placement="auto" data-content="Toggle the filter. A filter can be applied to remove lower priority information from getting logged. The filter is set by the workspace you are in."
                 data-trigger="hover" data-delay="500"><span class="glyphicon glyphicon-filter"></span></button>
+                <button type="button" class="btn btn-xs btn-default spconsole-filter-edit" data-container="body" data-toggle="popover" data-placement="auto" data-content="Manually edit the filter."
+                data-trigger="hover" data-delay="500"><span class="glyphicon glyphicon-filter" style="zoom:0.8;"></span><span class="glyphicon glyphicon-pencil"></span></button>
             </div>
 
-            <span class="panel-title">Serial Port Console v20 <span class="subtitle">(Multi Port Mode)</span></span>
+            <span class="panel-title">Serial Port Console v21 <span class="subtitle">(Multi Port Mode)</span></span>
+            
+            <div class="input-group com-chilipeppr-widget-spconsole-regexp-region" style="padding-top:10px;">
+              <input type="text" class="form-control com-chilipeppr-widget-spconsole-regexp-input" placeholder="Enter regular expression, i.e. ^G|^\$">
+              <span class="input-group-btn">
+                <button class="btn btn-default com-chilipeppr-widget-spconsole-regexp-setbtn" type="button">Set as Filter</button>
+              </span>
+            </div><!-- /input-group -->
+                
         </div>
         <div class="panel-body com-chilipeppr-widget-spconsole-body">
             <div class="com-chilipeppr-widget-spconsole-console-log">
