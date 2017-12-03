@@ -120,6 +120,9 @@ cprequire_test(["inline:com-chilipeppr-widget-spconsole"], function(sp) {
     var singlePortMode = true;
 
     var test = function() {
+        
+        var ctr = 0;
+        
         if (singlePortMode) {
 
             // sample sending of data, perhaps from another widget, or from
@@ -131,6 +134,13 @@ cprequire_test(["inline:com-chilipeppr-widget-spconsole"], function(sp) {
                     Id: "g1"
                 });
             }, 1000);
+            
+            setInterval(function() {
+                chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
+                    D: '$G\n',
+                    Id: "g" + ctr++
+                });
+            }, 2000);
 
             setTimeout(function() {
                 chilipeppr.publish("/com-chilipeppr-widget-serialport/recvline", {
@@ -177,9 +187,28 @@ cprequire_test(["inline:com-chilipeppr-widget-spconsole"], function(sp) {
     
     // test a recvSingleSelectPort
     // var testRecvPortChange = function() {
-    //     chilipeppr.publish("/com-chilipeppr-widget-serialport/recvSingleSelectPort", 
-    //     )
+    //     chilipeppr.publish("/com-chilipeppr-widget-serialport/recvSingleSelectPort",  );
     // }
+    
+    // Inject new div to contain widget or use an existing div with an ID
+    $("body").append('<p></p><' + 'div id="myDivWidgetSerialport"><' + '/div>');
+    
+    chilipeppr.load(
+      "#myDivWidgetSerialport",
+      "http://raw.githubusercontent.com/chilipeppr/widget-spjs/master/auto-generated-widget.html",
+      function() {
+        // Callback after widget loaded into #myDivWidgetSerialport
+        // Now use require.js to get reference to instantiated widget
+        cprequire(
+          ["inline:com-chilipeppr-widget-serialport"], // the id you gave your widget
+          function(myObjWidgetSerialport) {
+            // Callback that is passed reference to the newly loaded widget
+            console.log("Widget / Serial Port JSON Server just got loaded.", myObjWidgetSerialport);
+            myObjWidgetSerialport.init();
+          }
+        );
+      }
+    );
     
     setTimeout(function() {
         sp.setFilter(/^ok|^\n|^\[G|^</);
