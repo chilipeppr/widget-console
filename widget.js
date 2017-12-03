@@ -224,10 +224,12 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
                     $('.com-chilipeppr-widget-spconsole .spconsole-filter-edit').addClass("active");
                     $('.com-chilipeppr-widget-spconsole-regexp-region').removeClass("hidden");
                     $('.com-chilipeppr-widget-spconsole-regexp-input').val(this.getFilter());
+                    this.resize();
                 } else {
                     // the region is showing, hide it
                     $('.com-chilipeppr-widget-spconsole .spconsole-filter-edit').removeClass("active");
                     $('.com-chilipeppr-widget-spconsole-regexp-region').addClass("hidden");
+                    this.resize();
                 }
             });
             
