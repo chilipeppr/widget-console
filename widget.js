@@ -246,13 +246,25 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
         isFilterActive: false,
         setFilter: function(filterRegExp) {
             var that = this;
-            console.log("they want regexp filter:", filterRegExp);
+            console.log("they want regexp filter:", filterRegExp, "typeOf:", typeof(filterRegExp));
+            
             var funnelEl = $('.com-chilipeppr-widget-spconsole .spconsole-filter');
             funnelEl.removeClass("hidden");
             funnelEl.attr('data-content', 'Toggle the filter. A filter can be applied to remove lower priority information from getting logged. The filter is set by the workspace you are in.' + 
                 " The filter is set to: " + filterRegExp.toString());
             // funnelEl.data('content', "blah");
             console.log("regexp hover content", funnelEl.attr('data-content'));
+            
+            if (typeof(filterRegExp) == "object") {
+                // we were passed a native regexp, just use
+            } else {
+                // we were passed a string. turn it into a regexp
+                // clean up the slashes at start or end
+                filterRegExp = filterRegExp.replace(/^\//, "");
+                filterRegExp = filterRegExp.replace(/\/$/, "");
+                filterRegExp = new RegExp(filterRegExp);
+            }
+            console.log("final filterRegExp:", filterRegExp);
             this.filterRegExp = filterRegExp;
             this.isFilterActive = true;
             
@@ -891,22 +903,26 @@ cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jqueryc
             // remember, we get text and jquery HTML element payloads
             if (this.isFilterActive) {
                 
+                console.log("filter is active. regexp:", this.filterRegExp);
+                
                 // see if log matches filter and ignore
                 if (!(msg.appendTo) && msg.match(this.filterRegExp)) {
                     // this means it's a text object and it matched the regexp
-                    // console.log("regexp filter active and we matched so not printing. would have printed:", msg);
+                    console.log("regexp filter active and we matched so not printing. would have printed:", msg);
                     return;
                 } else if (msg.appendTo) {
                     // this means it's a jquery object, we have to probe deeper on the text to filter
-                    if (msg.text().match(this.filterRegExp)) {
-                        // console.log("found HTML element log and the HTML text matched the regexp, so not printing. would have printed:", msg.text());
+                    var msgText = msg.text();
+                    msgText = msgText.trim();
+                    if (msgText.match(this.filterRegExp)) {
+                        console.log("found HTML element log and the HTML text matched the regexp, so not printing. would have printed:", msgText);
                         return;
                     } else {
-                        // console.log("found HTML element, but it did not match regexp so still printing.");
+                        console.log("found HTML element, but it did not match regexp so still printing. msgText:", msgText);
                     }
                 
                 } else {
-                    // console.log("regexp msg did not match. msg:", msg);
+                    console.log("regexp msg did not match. msg:", msg);
                 }
             }
 
